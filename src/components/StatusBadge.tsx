@@ -1,9 +1,11 @@
 import type { BirdStatus } from "@/types/content";
 
-const styles: Record<BirdStatus, string> = {
-  available: "bg-sage-light text-sage",
-  reserved: "bg-honey-light text-[#8a5a12]",
-  sold: "bg-plum/10 text-plum-soft",
+// A colored square plus a word, like a map legend. The word matters:
+// color alone fails for colorblind visitors.
+const dot: Record<BirdStatus, string> = {
+  available: "bg-ok",
+  reserved: "bg-warn",
+  sold: "bg-line",
 };
 
 const labels: Record<BirdStatus, string> = {
@@ -14,7 +16,8 @@ const labels: Record<BirdStatus, string> = {
 
 export function StatusBadge({ status }: { status: BirdStatus }) {
   return (
-    <span className={`inline-block rounded-full px-3 py-1 text-sm font-bold ${styles[status]}`}>
+    <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted">
+      <span aria-hidden="true" className={`h-2 w-2 rounded-[2px] ${dot[status]}`} />
       {labels[status]}
     </span>
   );

@@ -21,13 +21,13 @@ export default function Image() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#fbf6f0",
-          color: "#8f2a4f",
-          border: "24px solid #f7e1e4",
+          background: "#1d001d",
+          color: "#ffe3f6",
+          borderBottom: "16px solid #ff7ad9",
         }}
       >
         <div style={{ fontSize: 88, fontWeight: 700 }}>{site.name}</div>
-        <div style={{ fontSize: 40, color: "#6b5560", marginTop: 16 }}>{site.tagline}</div>
+        <div style={{ fontSize: 40, color: "#c48ab8", marginTop: 16 }}>{site.tagline}</div>
       </div>
     ),
     size,

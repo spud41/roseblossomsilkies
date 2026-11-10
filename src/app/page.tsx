@@ -1,86 +1,97 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ButtonLink } from "@/components/Button";
 import { BirdCard } from "@/components/BirdCard";
+import { Label, Panel } from "@/components/Panel";
 import { ProgressBar } from "@/components/ProgressBar";
 import { site } from "@/content/site";
 import { birds } from "@/content/birds";
 import { fundraiser } from "@/content/fundraiser";
 
 export default function HomePage() {
-  const featured = birds.filter((b) => b.status === "available").slice(0, 3);
+  const available = birds.filter((b) => b.status === "available");
+  const featured = available.slice(0, 2);
 
   return (
-    <>
-      {/* Hero: on phones the text comes first, so the farm name and buttons
-          are visible without scrolling. Side by side from md up. */}
-      <section className="mx-auto grid max-w-6xl items-center gap-8 px-4 pb-12 pt-8 md:grid-cols-2 md:pt-16">
-        <div className="text-center md:text-left">
-          <h1 className="font-display text-5xl font-semibold leading-tight text-rose-dark sm:text-6xl">
-            {site.name}
-          </h1>
-          <p className="mt-4 text-xl text-plum-soft">{site.tagline}</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center md:justify-start">
-            <ButtonLink href="/birds">See available birds</ButtonLink>
-            <ButtonLink href="/waffles" variant="secondary">
-              Order waffles
-            </ButtonLink>
-          </div>
+    <div className="space-y-4 pt-8">
+      <div>
+        <h1 className="font-display text-[40px] font-bold leading-tight tracking-tight text-heading">{site.name}</h1>
+        <p className="mt-1 text-muted">{site.tagline}</p>
+      </div>
+
+      {/* Quick-status box, the first thing a phone visitor sees. */}
+      <Panel className="flex items-center justify-between gap-4 px-4 py-3">
+        <div>
+          <p className="text-xl font-semibold text-heading">{available.length} birds available</p>
+          <Label>{site.location}</Label>
         </div>
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] bg-petal">
+        <ButtonLink href="/birds">View birds</ButtonLink>
+      </Panel>
+
+      <Panel className="overflow-hidden">
+        <div className="relative aspect-[4/3]">
           <Image
             src={site.heroPhoto}
             alt={site.heroPhotoAlt}
             fill
             priority // above the fold: load it right away instead of lazily
-            sizes="(min-width: 768px) 50vw, 100vw"
+            sizes="(min-width: 672px) 640px, 100vw"
             className="object-cover"
           />
         </div>
-      </section>
+      </Panel>
 
-      <section className="bg-petal/60 py-14">
-        <div className="mx-auto grid max-w-5xl items-center gap-8 px-4 md:grid-cols-[1fr_2fr]">
-          <div className="relative mx-auto aspect-square w-56 overflow-hidden rounded-full bg-white ring-8 ring-white md:w-full">
-            <Image src={site.ownerPhoto} alt={site.ownerPhotoAlt} fill sizes="(min-width: 768px) 33vw, 224px" className="object-cover" />
+      <Panel className="p-4 sm:p-5">
+        <div className="flex items-center gap-4">
+          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-box border border-line">
+            <Image src={site.ownerPhoto} alt={site.ownerPhotoAlt} fill sizes="64px" className="object-cover" />
           </div>
           <div>
-            <h2 className="font-display text-3xl font-semibold text-rose-dark">Meet {site.owner}</h2>
-            <div className="mt-4 space-y-4 text-lg">
-              {site.about.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </div>
+            <Label>About the farm</Label>
+            <h2 className="font-display text-2xl font-bold text-heading">Meet {site.owner}</h2>
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <h2 className="font-display text-3xl font-semibold text-rose-dark">Ready for new homes</h2>
-          <ButtonLink href="/birds" variant="secondary">
-            All birds
-          </ButtonLink>
+        <div className="mt-4 space-y-3">
+          {site.about.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
         </div>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      </Panel>
+
+      <section className="pt-4">
+        <div className="mb-2 flex items-baseline justify-between">
+          <Label>Available now</Label>
+          <Link href="/birds" className="text-sm text-accent hover:text-accent-hi">
+            See all
+          </Link>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
           {featured.map((bird) => (
             <BirdCard key={bird.id} bird={bird} />
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-4">
-        <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-blush/50 sm:p-10">
-          <p className="font-bold uppercase tracking-wide text-sage">Fundraiser</p>
-          <h2 className="mt-1 font-display text-3xl font-semibold text-rose-dark">{fundraiser.title}</h2>
-          <p className="mt-2 text-lg text-plum-soft">{fundraiser.tagline}</p>
-          <div className="mt-6">
+      <section className="grid gap-4 pt-4 sm:grid-cols-2">
+        <Panel className="flex flex-col p-4">
+          <Label>Fundraiser</Label>
+          <h2 className="mt-1 font-display text-xl font-bold text-heading">{fundraiser.title}</h2>
+          <div className="mt-4 flex-1">
             <ProgressBar raisedCents={fundraiser.raisedCents} goalCents={fundraiser.goalCents} />
           </div>
-          <ButtonLink href="/fundraiser" className="mt-6 w-full sm:w-auto">
+          <ButtonLink href="/fundraiser" variant="secondary" className="mt-4">
             Read the story
           </ButtonLink>
-        </div>
+        </Panel>
+        <Panel className="flex flex-col p-4">
+          <Label>Farm kitchen</Label>
+          <h2 className="mt-1 font-display text-xl font-bold text-heading">Fresh waffles</h2>
+          <p className="mt-2 flex-1 text-sm text-muted">Made with eggs from our own hens. Order ahead for pickup.</p>
+          <ButtonLink href="/waffles" variant="secondary" className="mt-4">
+            See the menu
+          </ButtonLink>
+        </Panel>
       </section>
-    </>
+    </div>
   );
 }

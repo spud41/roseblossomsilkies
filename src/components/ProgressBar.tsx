@@ -1,4 +1,5 @@
 import { formatPrice } from "@/lib/format";
+import { Label } from "./Panel";
 
 export function ProgressBar({ raisedCents, goalCents }: { raisedCents: number; goalCents: number }) {
   // Clamp to 100 so going over the goal doesn't overflow the bar.
@@ -6,12 +7,12 @@ export function ProgressBar({ raisedCents, goalCents }: { raisedCents: number; g
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-2">
-        <p>
-          <span className="font-display text-3xl font-semibold text-rose-dark">{formatPrice(raisedCents)}</span>{" "}
-          <span className="text-plum-soft">raised of {formatPrice(goalCents)}</span>
-        </p>
-        <p className="font-bold text-plum-soft">{percent}%</p>
+      <div className="flex items-end justify-between gap-2">
+        <div>
+          <p className="text-2xl font-semibold text-heading">{formatPrice(raisedCents)}</p>
+          <Label>Raised of {formatPrice(goalCents)}</Label>
+        </div>
+        <p className="text-2xl font-semibold text-accent">{percent}%</p>
       </div>
       <div
         role="progressbar"
@@ -19,9 +20,9 @@ export function ProgressBar({ raisedCents, goalCents }: { raisedCents: number; g
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={percent}
-        className="mt-3 h-4 overflow-hidden rounded-full bg-petal"
+        className="mt-3 h-2 overflow-hidden rounded-[2px] bg-line"
       >
-        <div className="h-full rounded-full bg-rose" style={{ width: `${percent}%` }} />
+        <div className="h-full bg-accent" style={{ width: `${percent}%` }} />
       </div>
     </div>
   );

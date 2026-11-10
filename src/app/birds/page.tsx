@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BirdCard } from "@/components/BirdCard";
 import { PageHeader } from "@/components/PageHeader";
+import { Label, Panel } from "@/components/Panel";
 import { birds } from "@/content/birds";
 import { site } from "@/content/site";
 import type { BirdStatus } from "@/types/content";
@@ -23,23 +24,21 @@ export default function BirdsPage() {
         title="Available Birds"
         intro="Every bird is hand-raised and handled daily. Message me with any questions before you buy."
       />
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {sorted.map((bird) => (
-            <BirdCard key={bird.id} bird={bird} />
-          ))}
-        </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {sorted.map((bird) => (
+          <BirdCard key={bird.id} bird={bird} />
+        ))}
+      </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-3xl bg-sage-light p-6">
-            <h2 className="font-display text-xl font-semibold">Pickup</h2>
-            <p className="mt-2">{site.pickupInfo}</p>
-          </div>
-          <div className="rounded-3xl bg-honey-light p-6">
-            <h2 className="font-display text-xl font-semibold">Shipping</h2>
-            <p className="mt-2">{site.shippingInfo}</p>
-          </div>
-        </div>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <Panel className="p-4">
+          <Label>Pickup</Label>
+          <p className="mt-1 text-sm">{site.pickupInfo}</p>
+        </Panel>
+        <Panel className="p-4">
+          <Label>Shipping</Label>
+          <p className="mt-1 text-sm">{site.shippingInfo}</p>
+        </Panel>
       </div>
     </>
   );
