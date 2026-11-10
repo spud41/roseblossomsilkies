@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/*
+  Brand tokens. Tailwind turns each --color-* into classes like
+  bg-rose, text-plum, border-petal, so changing a hex here restyles the site.
+*/
+@theme {
+  --color-cream: #fbf6f0;
+  --color-petal: #f7e1e4; /* light pink panels */
+  --color-blush: #eebfc9;
+  --color-rose: #b83d68; /* buttons, links */
+  --color-rose-dark: #8f2a4f; /* hover */
+  --color-plum: #3b2a33; /* body text */
+  --color-plum-soft: #6b5560; /* secondary text */
+  --color-sage: #5f7d61;
+  --color-sage-light: #e4ece2;
+  --color-honey: #e9b872;
+  --color-honey-light: #fbefd9;
+}
+
+@theme inline {
+  --font-sans: var(--font-nunito);
+  --font-display: var(--font-fraunces);
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-plum);
+}
+
+/* Keyboard users get a clear focus ring on every link and button. */
+:focus-visible {
+  outline: 3px solid var(--color-rose);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
